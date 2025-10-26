@@ -181,6 +181,38 @@ export const WeatherGraphs = () => {
 
       {/* Risk Predictions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <GlassCard className="p-6">
+          <h3 className="text-lg font-semibold text-foreground mb-4">Risk Predictions</h3>
+          <div className="space-y-4">
+            {predictions.map((prediction, index) => (
+              <div 
+                key={index}
+                className="p-4 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-colors"
+                onClick={() => handleGraphClick(prediction.source)}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className={`w-4 h-4 ${prediction.type === 'flood' ? 'text-sky-blue' : 'text-warning'}`} />
+                    <span className="font-medium text-foreground capitalize">{prediction.type} Risk</span>
+                  </div>
+                  <span className={`text-sm font-bold ${prediction.probability > 60 ? 'text-destructive' : prediction.probability > 40 ? 'text-warning' : 'text-primary'}`}>
+                    {prediction.probability}%
+                  </span>
+                </div>
+                <p className="text-sm text-muted-foreground">{prediction.region} • {prediction.timeframe}</p>
+                <div className="mt-2 w-full bg-muted rounded-full h-2">
+                  <div 
+                    className={`h-2 rounded-full transition-all duration-500 ${
+                      prediction.type === 'flood' ? 'bg-sky-blue' : 'bg-warning'
+                    }`}
+                    style={{ width: `${prediction.probability}%` }}
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </GlassCard>
+
         <div className="cursor-pointer" onClick={() => handleGraphClick()}>
           <GlassCard className="p-6 hover:shadow-hover transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
@@ -221,38 +253,6 @@ export const WeatherGraphs = () => {
           </div>
           </GlassCard>
         </div>
-
-        <GlassCard className="p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Risk Predictions</h3>
-          <div className="space-y-4">
-            {predictions.map((prediction, index) => (
-              <div 
-                key={index}
-                className="p-4 rounded-lg border border-border hover:bg-muted/50 cursor-pointer transition-colors"
-                onClick={() => handleGraphClick(prediction.source)}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <AlertTriangle className={`w-4 h-4 ${prediction.type === 'flood' ? 'text-sky-blue' : 'text-warning'}`} />
-                    <span className="font-medium text-foreground capitalize">{prediction.type} Risk</span>
-                  </div>
-                  <span className={`text-sm font-bold ${prediction.probability > 60 ? 'text-destructive' : prediction.probability > 40 ? 'text-warning' : 'text-primary'}`}>
-                    {prediction.probability}%
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground">{prediction.region} • {prediction.timeframe}</p>
-                <div className="mt-2 w-full bg-muted rounded-full h-2">
-                  <div 
-                    className={`h-2 rounded-full transition-all duration-500 ${
-                      prediction.type === 'flood' ? 'bg-sky-blue' : 'bg-warning'
-                    }`}
-                    style={{ width: `${prediction.probability}%` }}
-                  ></div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </GlassCard>
       </div>
     </div>
   );
