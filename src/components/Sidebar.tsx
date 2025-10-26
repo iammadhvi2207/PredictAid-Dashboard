@@ -26,7 +26,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
             <Leaf className="w-6 h-6 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-foreground">Green Haven</h1>
+            <h1 className="text-xl font-bold text-foreground">PredictAid</h1>
             <p className="text-sm text-muted-foreground">Disaster Watch</p>
           </div>
         </div>
