@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Nature-inspired disaster response dashboard design system.
+All colors MUST be HSL. Glassmorphism effects and nature themes.
+*/
+
+@layer base {
+  :root {
+    /* Nature-inspired base colors */
+    --background: 120 25% 97%;
+    --foreground: 150 20% 15%;
+
+    /* Glass card effects */
+    --card: 0 0% 100%;
+    --card-foreground: 150 20% 15%;
+    --glass: 0 0% 100% / 0.1;
+    --glass-border: 0 0% 100% / 0.2;
+
+    /* Nature primary colors - forest green */
+    --primary: 142 76% 28%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 142 60% 45%;
+
+    /* Secondary colors - sky blue */
+    --secondary: 200 90% 85%;
+    --secondary-foreground: 200 100% 20%;
+    --sky-blue: 200 100% 50%;
+    --sky-blue-light: 200 100% 85%;
+
+    /* Earth tones */
+    --earth: 25 60% 65%;
+    --earth-dark: 25 60% 45%;
+    --muted: 120 15% 95%;
+    --muted-foreground: 120 10% 45%;
+
+    /* Accent colors */
+    --accent: 142 60% 92%;
+    --accent-foreground: 142 76% 28%;
+
+    /* Alert colors */
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --warning: 45 100% 60%;
+    --warning-foreground: 45 100% 15%;
+
+    /* UI elements */
+    --border: 120 20% 88%;
+    --input: 120 20% 88%;
+    --ring: 142 76% 28%;
+    --radius: 1rem;
+
+    /* Gradients for cards and effects */
+    --gradient-nature: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--sky-blue)) 100%);
+    --gradient-weather: linear-gradient(135deg, hsl(var(--sky-blue)) 0%, hsl(var(--sky-blue-light)) 100%);
+    --gradient-disaster: linear-gradient(135deg, hsl(var(--warning)) 0%, hsl(var(--destructive)) 100%);
+    --gradient-ai: linear-gradient(135deg, hsl(var(--primary-glow)) 0%, hsl(var(--accent)) 100%);
+    --gradient-glass: linear-gradient(135deg, hsl(var(--glass)) 0%, hsl(0 0% 100% / 0.05) 100%);
+
+    /* Shadows for depth */
+    --shadow-glass: 0 8px 32px 0 hsl(0 0% 0% / 0.1);
+    --shadow-card: 0 4px 16px 0 hsl(0 0% 0% / 0.08);
+    --shadow-hover: 0 8px 24px 0 hsl(var(--primary) / 0.15);
+
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    --background: 150 25% 8%;
+    --foreground: 120 25% 95%;
+    --card: 150 20% 12%;
+    --card-foreground: 120 25% 95%;
+    --glass: 0 0% 100% / 0.05;
+    --glass-border: 0 0% 100% / 0.1;
+    --primary: 142 60% 55%;
+    --primary-foreground: 150 25% 8%;
+    --secondary: 200 50% 25%;
+    --secondary-foreground: 200 90% 85%;
+    --muted: 150 15% 15%;
+    --muted-foreground: 120 10% 65%;
+    --accent: 142 40% 20%;
+    --accent-foreground: 142 60% 85%;
+    --border: 150 15% 20%;
+    --input: 150 15% 20%;
+    --ring: 142 60% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
