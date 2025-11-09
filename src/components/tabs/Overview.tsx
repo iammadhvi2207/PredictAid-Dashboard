@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GlassCard } from '../GlassCard';
-import { RealInteractiveMap } from '../RealInteractiveMap';
+import { LeafletDisasterMap } from '../LeafletDisasterMap';
 import { DisasterGraphs } from '../charts/DisasterGraphs';
 import { WeatherGraphs } from '../charts/WeatherGraphs';
 import { EmergencyShelter } from '../EmergencyShelter';
@@ -78,7 +78,7 @@ export const Overview = () => {
               </p>
             </div>
             <div className="h-[520px]">
-              <RealInteractiveMap />
+              <LeafletDisasterMap />
             </div>
           </GlassCard>
         </div>

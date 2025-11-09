@@ -62,7 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange }) => {
       {/* Footer */}
       <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-glass-border">
         <p className="text-xs text-muted-foreground text-center">
-          © 2024 Green Haven Watch
+          © 2024 Predict Aid
         </p>
         <p className="text-xs text-muted-foreground text-center mt-1">
           Protecting nature together

@@ -93,36 +93,53 @@ export const Weather = () => {
     try {
       setLoading(true);
       
-      // Using OpenWeatherMap API (you'll need to replace with actual API key)
-      // For demo, using mock data based on typical Indian weather patterns
+      // Using Open-Meteo API (free, no API key required)
+      const currentWeatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,pressure_msl,visibility&timezone=auto`;
+      const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,temperature_2m_min,relative_humidity_2m_mean,wind_speed_10m_max&timezone=auto&forecast_days=5`;
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock weather data for Indian cities
-      const mockWeatherData: WeatherData = {
-        location: `${city}, India`,
-        temperature: Math.floor(Math.random() * 15) + 25, // 25-40°C typical for India
-        condition: getRandomCondition(),
-        humidity: Math.floor(Math.random() * 40) + 40, // 40-80%
-        windSpeed: Math.floor(Math.random() * 20) + 5, // 5-25 km/h
-        visibility: Math.floor(Math.random() * 10) + 5, // 5-15 km
-        pressure: Math.floor(Math.random() * 50) + 1000, // 1000-1050 hPa
-        feelsLike: Math.floor(Math.random() * 15) + 27,
-        description: 'Current weather conditions for your location'
+      const [currentResponse, forecastResponse] = await Promise.all([
+        fetch(currentWeatherUrl),
+        fetch(forecastUrl)
+      ]);
+
+      const currentData = await currentResponse.json();
+      const forecastData = await forecastResponse.json();
+
+      // Map weather codes to conditions
+      const getWeatherCondition = (code: number) => {
+        if (code === 0) return 'Clear Sky';
+        if (code <= 3) return 'Partly Cloudy';
+        if (code <= 48) return 'Cloudy';
+        if (code <= 67) return 'Light Rain';
+        if (code <= 77) return 'Heavy Rain';
+        if (code <= 82) return 'Rain Showers';
+        if (code <= 99) return 'Thunderstorm';
+        return 'Haze';
       };
 
-      const mockForecast: ForecastData[] = Array.from({ length: 5 }, (_, i) => ({
-        date: new Date(Date.now() + i * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', { weekday: 'long' }),
-        high: Math.floor(Math.random() * 10) + 30,
-        low: Math.floor(Math.random() * 10) + 20,
-        condition: getRandomCondition(),
-        humidity: Math.floor(Math.random() * 30) + 50,
-        windSpeed: Math.floor(Math.random() * 15) + 5
+      const realWeatherData: WeatherData = {
+        location: `${city}`,
+        temperature: Math.round(currentData.current.temperature_2m),
+        condition: getWeatherCondition(currentData.current.weather_code),
+        humidity: Math.round(currentData.current.relative_humidity_2m),
+        windSpeed: Math.round(currentData.current.wind_speed_10m),
+        visibility: Math.round(currentData.current.visibility / 1000), // Convert to km
+        pressure: Math.round(currentData.current.pressure_msl),
+        feelsLike: Math.round(currentData.current.apparent_temperature),
+        description: 'Real-time weather data from Open-Meteo'
+      };
+
+      const realForecast: ForecastData[] = forecastData.daily.time.map((date: string, i: number) => ({
+        date: new Date(date).toLocaleDateString('en-IN', { weekday: 'long' }),
+        high: Math.round(forecastData.daily.temperature_2m_max[i]),
+        low: Math.round(forecastData.daily.temperature_2m_min[i]),
+        condition: getWeatherCondition(forecastData.daily.weather_code[i]),
+        humidity: Math.round(forecastData.daily.relative_humidity_2m_mean[i]),
+        windSpeed: Math.round(forecastData.daily.wind_speed_10m_max[i])
       }));
 
-      setWeatherData(mockWeatherData);
-      setForecast(mockForecast);
+      setWeatherData(realWeatherData);
+      setForecast(realForecast);
       
     } catch (error) {
       console.error('Error fetching weather data:', error);
@@ -131,10 +148,6 @@ export const Weather = () => {
     }
   };
 
-  const getRandomCondition = () => {
-    const conditions = ['Clear Sky', 'Partly Cloudy', 'Cloudy', 'Light Rain', 'Heavy Rain', 'Thunderstorm', 'Haze', 'Sunny'];
-    return conditions[Math.floor(Math.random() * conditions.length)];
-  };
 
   const getWeatherIcon = (condition: string) => {
     if (condition.includes('Rain')) return '🌧️';
