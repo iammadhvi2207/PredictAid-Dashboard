@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GlassCard } from '../GlassCard';
+import { DisasterChatbot } from '../DisasterChatbot';
 import { Brain, TrendingUp, Target, AlertCircle, CheckCircle, Activity, Zap } from 'lucide-react';
 
 export const AIInsights = () => {
@@ -155,6 +156,9 @@ export const AIInsights = () => {
           Machine learning powered risk assessment and predictive analytics
         </p>
       </div>
+
+      {/* Disaster Help Chatbot */}
+      <DisasterChatbot />
 
       {/* AI Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
