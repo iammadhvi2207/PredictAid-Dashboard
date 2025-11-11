@@ -1,26 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import type { LatLngExpression, Icon, DivIcon } from 'leaflet';
+import type { LatLngExpression, DivIcon } from 'leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Dynamically import leaflet to avoid SSR issues
-let L: any;
-if (typeof window !== 'undefined') {
-  L = require('leaflet');
-  
-  // Fix default marker icon issue with Leaflet in React
-  delete (L.Icon.Default.prototype as any)._getIconUrl;
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-  });
-}
+// Fix default marker icon issue with Leaflet in React
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
 
 // Custom icons for different disaster types
-const createCustomIcon = (severity: string): DivIcon | undefined => {
-  if (typeof window === 'undefined' || !L) return undefined;
-  
+const createCustomIcon = (severity: string): DivIcon => {
   const color = severity === 'high' ? '#ef4444' : severity === 'medium' ? '#f59e0b' : '#3b82f6';
   return L.divIcon({
     className: 'custom-marker',
