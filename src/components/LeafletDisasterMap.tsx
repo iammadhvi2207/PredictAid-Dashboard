@@ -64,6 +64,12 @@ export const LeafletDisasterMap = ({
 }: LeafletDisasterMapProps) => {
   const [disasterLocations, setDisasterLocations] = useState<DisasterLocation[]>([]);
   const [mapCenter, setMapCenter] = useState<[number, number]>(center);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Ensure Leaflet is loaded
+    setIsLoaded(true);
+  }, []);
 
   useEffect(() => {
     if (searchLocation) {
@@ -137,6 +143,14 @@ export const LeafletDisasterMap = ({
 
     fetchDisasterData();
   }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="h-full w-full rounded-lg overflow-hidden relative flex items-center justify-center bg-muted/20">
+        <p className="text-muted-foreground">Loading map...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="h-full w-full rounded-lg overflow-hidden relative">
